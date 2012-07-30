@@ -32,8 +32,6 @@ while True:
         fileExist = "true"
         print 'File Exists!'
 
-        print 'OutputData: ', outputdata
-
         # ProxyServer finds a cache hit and generates a response message
         tcpCliSock.send("HTTP/1.0 200 OK\r\n")
         tcpCliSock.send("Content-Type:text/html\r\n")

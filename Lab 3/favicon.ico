@@ -1,0 +1,7 @@
+HTTP/1.0 303 See Other
+Location: http://guidetest.a.id.opendns.com/?url=%2F1%2E0
+Content-Length: 0
+Connection: close
+Date: Mon, 30 Jul 2012 02:14:36 GMT
+Server: OpenDNS Guide
+
