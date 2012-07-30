@@ -24,7 +24,7 @@ while True:
     print message.split()[1]
     filename = message.split()[1].partition("/")[2]
     fileExist = "false"
-    filetouse = 'File to use: /' + filename
+    filetouse = "/" + filename
     try:
         # Check whether the file exists in the cache
         f = open(filetouse[1:], "r")
@@ -72,6 +72,7 @@ while True:
                 # and the corresponding file in the cache
                 tmpFile = open("./" + filename, "wb")
                 for i in range(0, len(buffer)):
+                    tmpFile.write(buffer[i])
                     tcpCliSock.send(buffer[i])
 
             except:
