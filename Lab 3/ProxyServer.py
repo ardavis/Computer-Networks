@@ -11,7 +11,7 @@ tcpSerSock = socket(AF_INET, SOCK_STREAM)
 
 # Prepare a server socket
 tcpSerSock.bind(('', tcpSerPort))
-tcpSerSock.listen(1)
+tcpSerSock.listen(5)
 
 while True:
     # Start receiving data from the client
@@ -19,20 +19,20 @@ while True:
     tcpCliSock, addr = tcpSerSock.accept()
     print 'Received a connection from: ', addr
     message = tcpCliSock.recv(1024)
-    print message
+
     # Extract the filename from the given message
     print message.split()[1]
     filename = message.split()[1].partition("/")[2]
-    print 'Filename: ', filename
     fileExist = "false"
     filetouse = 'File to use: /' + filename
-    print filetouse
     try:
         # Check whether the file exists in the cache
         f = open(filetouse[1:], "r")
         outputdata = f.readlines()
         fileExist = "true"
         print 'File Exists!'
+
+        print 'OutputData: ', outputdata
 
         # ProxyServer finds a cache hit and generates a response message
         tcpCliSock.send("HTTP/1.0 200 OK\r\n")
@@ -50,6 +50,7 @@ while True:
             # Create a socket on the proxyserver
             print 'Creating socket on proxyserver'
             c = socket(AF_INET, SOCK_STREAM)
+
             hostn = filename.replace("www.", "", 1)
             print 'Host Name: ', hostn
             try:
@@ -63,17 +64,15 @@ while True:
                 fileobj.write("GET " + "http://" + filename + "HTTP/1.0\n\n")
 
                 # Read the response into buffer
-                print 'Reading response into buffer'
-                c.send()
-                response = c.recv(1024)
-                print 'Response: ', response
-
+                buffer = c.recv(1024)
+                print 'Buffer: ', buffer
 
                 # Create a new file in the cache for the requested file.
                 # Also send the response in the buffer to client socket
                 # and the corresponding file in the cache
                 tmpFile = open("./" + filename, "wb")
-                # Do stuff here
+                for i in range(0, len(buffer)):
+                    tcpCliSock.send(buffer[i])
 
             except:
                 print 'Illegal request'
@@ -81,6 +80,7 @@ while True:
         else:
             # HTTP response message for file not found
             # Do stuff here
+            print 'File Not Found...Stupid Andy'
             a = 2
     # Close the socket and the server sockets
     tcpCliSock.close()
