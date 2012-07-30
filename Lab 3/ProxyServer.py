@@ -59,19 +59,18 @@ while True:
                 # Create a temporary file on this socket and ask port 80
                 # for the file requested by the client 
                 fileobj = c.makefile('r', 0)
-                fileobj.write("GET " + "http://" + filename + "HTTP/1.0\n\n")
+                fileobj.write("GET " + "http://" + filename + " HTTP/1.0\n\n")
 
                 # Read the response into buffer
-                buffer = c.recv(1024)
-                print 'Buffer: ', buffer
+                buff = fileobj.readlines() 
 
                 # Create a new file in the cache for the requested file.
                 # Also send the response in the buffer to client socket
                 # and the corresponding file in the cache
                 tmpFile = open("./" + filename, "wb")
-                for i in range(0, len(buffer)):
-                    tmpFile.write(buffer[i])
-                    tcpCliSock.send(buffer[i])
+                for i in range(0, len(buff)):
+                    tmpFile.write(buff[i])
+                    tcpCliSock.send(buff[i])
 
             except:
                 print 'Illegal request'
