@@ -1,0 +1,17 @@
+%h1 Listing attendees
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @attendees.each do |attendee|
+    %tr
+      %td= link_to 'Show', attendee
+      %td= link_to 'Edit', edit_attendee_path(attendee)
+      %td= link_to 'Destroy', attendee, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Attendee', new_attendee_path
