@@ -14,7 +14,15 @@
   .field
     = f.label :date
     %br/
-    = f.datetime_select :date
+    = f.date_select :date
+  .field
+    = f.label :start_time
+    %br/
+    = f.time_select :start_time
+  .field
+    = f.label :end_time
+    %br/
+    = f.time_select :end_time
   .field
     = f.label :address
     %br/

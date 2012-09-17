@@ -14,10 +14,10 @@
       %td= event.name
       %td= event.date
       %td= event.desc
-      %td= "#{event.address} #{event.city} #{event.state}"
+      %td= [event.address, event.city, event.state].join(', ')
       %td= event.attendance
       %td= link_to 'Show', event, class: 'btn btn-mini'
       %td= link_to 'Edit', edit_event_path(event), class: 'btn btn-mini'
-      %td= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini btn-danger'
+      %td= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-mini'
 %br/
-= link_to 'New Event', new_event_path, class: 'btn btn-primary'
+= link_to 'New Event', new_event_path, class: 'btn'

@@ -3,6 +3,7 @@ class AttendeesController < ApplicationController
   before_filter :get_event
 
   def index
+    #@attendees = Attendee.all
     @attendees = @event.attendees
   end
 
@@ -20,13 +21,16 @@ class AttendeesController < ApplicationController
 
   def create
     @attendee = @event.attendees.new(params[:attendee])
+    logger.info "New Attendee #{@attendee.as_json}"
 
-    if @attendee.save
-      format.html { redirect_to @event, notice: 'Attendee was successfully added.' }
-      format.json { render json: @attendee, status: :created, location: @attendee }
-    else
-      format.html { render :new }
-      format.json { render json: @attendee.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if @attendee.save
+        format.html {redirect_to @event, notice: 'Attendee was successfully added.' }
+        format.json { render json: @attendee, status: :created, location: @attendee }
+      else
+        format.html {render :new}
+        format.json { render json: @attendee.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -34,11 +38,9 @@ class AttendeesController < ApplicationController
     @attendee = Attendee.find(params[:id])
 
     if @attendee.update_attributes(params[:attendee])
-      format.html { redirect_to @event, notice: 'Attendee was successfully updated.' }
-      format.json { head :no_content }
+      redirect_to @event, notice: 'Attendee was successfully updated.'
     else
-      format.html { render :edit }
-      format.json { render json: @attendee.errors, status: :unprocessable_entity }
+      render :edit
     end
   end
 
